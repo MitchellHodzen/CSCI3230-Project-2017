@@ -1,0 +1,51 @@
+Git Tips:       **   https://www.youtube.com/watch?v=0fKg7e37bQE   **
+
+1. Instal Git
+    Open your command line or terminal type: git --version to make sure you have it installed
+
+
+To get the project repository on you computer:
+    Click on CSCI3230-Project-2017 on Github.com
+    Click the GREEN button on the right "Clone or download"
+    Copy the HTTPS link
+
+    ** I would make a new directory on your computer for GitProjects **
+
+    Open Command Line or Terminal
+        Go into your new directory (if you made one) or go into where ever you want your folder to be type:
+            cd [folder name]  
+        Type: git clone "paste link" -  ** paste the link inside double quotes ** 
+            this will put the entire project on you computer, you should now have the 
+            folder on you computer with all the files from the project
+            
+        
+    Now you can open the project in Visual Studio or whatever IDE you want to use.
+    When you save a file to the folder on your computer use the commands to sync it with GitHub.
+
+        git status
+        git add <filename> or git add *
+        git commit -m "Message here"
+        git push
+
+        ** git commands only work when you are in the same directory as the project, see below **
+        ** folow that order to add files to the GitHub project, add, commit, push  **
+    
+
+    Git Commands:
+
+    Git task                            Git commands
+
+    Tell Git who you are	    git config --global user.name "Sam Smith"
+                                git config --global user.email sam@example.com
+    
+    Status                      git status
+
+    Add files                   git add <filename> 
+                                git add *           //adds all
+    
+    Commit                      git commit -m "Commit message"	
+    
+    Push	                    git push
+    
+    Pull                        git pull
+        
