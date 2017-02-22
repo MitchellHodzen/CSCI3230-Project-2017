@@ -20,7 +20,7 @@ ______________________________________________________________________________
 
         - Pull frequency data
 
-        - Arrage and display documents by frequency data
+        - Arrange and display documents by frequency data
 
         (Optional) - Display similar documents
 
