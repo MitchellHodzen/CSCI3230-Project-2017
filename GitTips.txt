@@ -1,5 +1,13 @@
 Git Tips:       **   https://www.youtube.com/watch?v=0fKg7e37bQE   **
 
+	** 
+		You can also 'Open from Source Control' in Visual Studio
+		Clone just like above in the clone section
+		open the repository and commit changes and push
+		from within Visual Studio 
+	**
+      
+
 1. Instal Git
     Open your command line or terminal type: git --version to make sure you have it installed
 
