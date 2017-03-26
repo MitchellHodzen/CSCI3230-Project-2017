@@ -16,7 +16,7 @@ namespace DataStructuresProject2017.Indexing {
 
         private void populateIndex() {
 
-            //Loop through list of vecters and populate index
+            //Loop through list of vectors and populate index
             for (int i = 0; i < List.Count; i++)
             {
                 int[] words = DocumentVector.getDocumentTerms();
@@ -34,7 +34,7 @@ namespace DataStructuresProject2017.Indexing {
 
         public static void main(Strings[] args)
         {
-           Console.WriteLine( DocumentVector.getDocumentTerms());
+           //Test index.cs
         }
 
         
