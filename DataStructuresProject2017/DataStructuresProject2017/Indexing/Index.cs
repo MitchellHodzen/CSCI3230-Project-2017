@@ -32,7 +32,7 @@ namespace DataStructuresProject2017.Indexing {
             return null;
         }
 
-        public static void main(Strings[] args)
+        public static void Main(string[] args)
         {
            //Test index.cs
         }
