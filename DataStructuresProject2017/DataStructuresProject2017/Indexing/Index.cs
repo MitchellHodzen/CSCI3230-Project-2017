@@ -12,7 +12,11 @@ namespace DataStructuresProject2017.Indexing {
             documents associated with that word. This will allow for fast retrevial
             of documents when a word is searched. */
         
-        private static Dictionary<int, int> index = new Dictionary<int, int>();
+        private static Dictionary<int, int> index;
+
+        public Index(){
+            index = = new Dictionary<int, int>();
+        }
 
         private void populateIndex() {
 
@@ -29,7 +33,7 @@ namespace DataStructuresProject2017.Indexing {
         }
 
         public void getDocuments(int arg) {
-            return null;
+            return index.Keys(arg);
         }
 
         public static void Main(string[] args)
