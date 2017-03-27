@@ -15,42 +15,41 @@ namespace DataStructuresProject2017.DocumentStorage
     public class SparseVector
     {
         //Internal array which contains all word frequency information about the document
-        //internalArray[Word Index][Word Freqency]
-        private int[][] internalArray;
-
-        public SparseVector(Dictionary<int, int> docInput)
-        {
-            GenerateVector(docInput);
-        }
-        private void GenerateVector(Dictionary<int, int> docInput)
-        {
-            //Using the word frequency dictionary the internalArray is populated with words and their frequency
-            internalArray = new int[docInput.Count()][];
-            for (int i = 0; i < internalArray.Length; i++)
-            {
-                internalArray[i] = new int[2];
-                internalArray[i][0] = docInput.ElementAt(i).Key;
-                internalArray[i][1] = docInput.ElementAt(i).Value;
-            }
-        }
+        //internalMap<Word Index, Word Freqency>
+        private Dictionary<int, int> internalMap = new Dictionary<int, int>();
 
         public int[] GetNonZeroIndexPositions()
         {
-            //Returns an array which holds the values in the first index position of the internal array
-            int[] termArray = new int[internalArray.Length];
-            for (int i = 0; i < termArray.Length; i++)
+            //Returns an array which holds the values of all keys in the internal map
+            int[] termArray = new int[internalMap.Count()];
+            for (int i = 0; i < internalMap.Count(); i++)
             {
-                termArray[i] = internalArray[i][0];
+                termArray[i] = internalMap.ElementAt(i).Key;
             }
             return termArray;
+        }
+
+        public void AddElement(int indexPosition, int value)
+        {
+            //Check if the current index already has a value 
+            if (internalMap.ContainsKey(indexPosition))
+            {
+                //If the index already has a value, increment that value by the passed in value
+                internalMap[indexPosition] = internalMap[indexPosition] + value;
+            }
+            else
+            {
+                //If the index does not already have a value, insert that index with a value of the passed in value
+                internalMap.Add(indexPosition, value);
+            }
         }
 
         public void PrintVector()
         {
             //Quick way to print out the vector, for testing
-            for (int i = 0; i < internalArray.Length; i++)
+            foreach (KeyValuePair<int, int> p in internalMap)
             {
-                Console.WriteLine(internalArray[i][0] + " " + internalArray[i][1]);
+                Console.WriteLine("{0}, {1}", p.Key, p.Value);
             }
         }
     }

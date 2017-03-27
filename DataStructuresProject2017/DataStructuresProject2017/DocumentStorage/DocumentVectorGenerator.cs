@@ -28,43 +28,40 @@ namespace DataStructuresProject2017.DocumentStorage
 
             //Splits the clean string into individual words
             string[] words = cleaninput.Split(' ');
-            //Creates a temporary dictionary which keeps track of the words in the current document and their frequency
-            Dictionary<int, int> tempDict = new Dictionary<int, int>();
 
+            //Creates the term vector used when creating the document vector
+            SparseVector termVector = new SparseVector();
             for (int i = 0; i < words.Length; i++)
             {
                 //Check if the current word is in the overall termMap
-                int currentWordIndex;
-                if (termMap.ContainsKey(words[i]))
-                {
-                    //If the word is already in the termMap, set the current word index to that words index
-                    currentWordIndex = termMap[words[i]];
-                }
-                else
-                {
-                    //If the word is not already in the termMap, insert it and give it an index onen above the previous entry
-                    termMap.Add(words[i], termIndex);
-                    currentWordIndex = termIndex;
-                    termIndex++;
-                }
+                int currentWordIndex = GetTermIndex(words[i]);
 
-                //Check if the current word has been added to this particular document
-                if (tempDict.ContainsKey(currentWordIndex))
-                {
-                    //If the current word has already been added to this particular document, increment the frequency of that word by 1
-                    tempDict[currentWordIndex] = tempDict[currentWordIndex] + 1;
-                }
-                else
-                {
-                    //If the current word has not already been added to this particular document, insert it with a frequency of 1
-                    tempDict.Add(currentWordIndex, 1);
-                }
-
+                //Adds the current word to the term vector
+                //Note that if the word is already in the vector then the value is incremented by 1, if not the value for that word is set to 1
+                termVector.AddElement(currentWordIndex, 1);
             }
 
             //Create a new document vector
-            return new DocumentVector(null, new SparseVector(tempDict));
+            return new DocumentVector(null, termVector);
             //**NOTE** NEED TO GET THE DOCUMENT LOCATION/FILE FROM WORD CLEANER
+        }
+
+        private static int GetTermIndex(string term)
+        {
+            if (termMap.ContainsKey(term))
+            {
+                //If the word is already in the termMap, return the index
+                return termMap[term];
+            }
+            else
+            {
+                //If the word is not already in the termMap, insert it and give it an index onen above the previous entry
+                termMap.Add(term, termIndex);
+                int currentTermIndex = termIndex;
+                termIndex++;
+                return currentTermIndex;
+            }
+
         }
     }
 }
