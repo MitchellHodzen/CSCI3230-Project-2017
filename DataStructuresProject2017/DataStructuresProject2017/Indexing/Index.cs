@@ -18,6 +18,7 @@ namespace DataStructuresProject2017.Indexing {
             index = = new Dictionary<int, int>();
         }
 
+        //Method to populate the index
         private void populateIndex(List<int> arg) {
 
             //Loop through list of vectors and populate index
@@ -32,8 +33,9 @@ namespace DataStructuresProject2017.Indexing {
             }
         }
 
+        //Method to get values per key
         public void getDocuments(int arg) {
-            return index.Keys(arg);
+            return index[arg];
         }
 
         public static void Main(string[] args)
