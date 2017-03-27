@@ -18,10 +18,10 @@ namespace DataStructuresProject2017.Indexing {
             index = = new Dictionary<int, int>();
         }
 
-        private void populateIndex() {
+        private void populateIndex(List<int> arg) {
 
             //Loop through list of vectors and populate index
-            for (int i = 0; i < List.Count; i++)
+            for (int i = 0; i < arg.Count; i++)
             {
                 int[] words = DocumentVector.getDocumentTerms();
                 for (int j = 0; j < words.Count ; j++)
