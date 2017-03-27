@@ -61,6 +61,7 @@
     <Compile Include="DocumentStorage\DocumentVector.cs" />
     <Compile Include="DocumentStorage\DocumentVectorGenerator.cs" />
     <Compile Include="DocumentStorage\SparseVector.cs" />
+    <Compile Include="Indexing\Index.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
