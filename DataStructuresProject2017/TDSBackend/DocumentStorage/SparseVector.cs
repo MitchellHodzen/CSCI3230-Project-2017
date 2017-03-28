@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataStructuresProject2017.DocumentStorage
+namespace TDSBackend.DocumentStorage
 {
     /*A sparse vector which contains information about the words that appear in the document and their frequency
     This information is held in a multidimentional array where the first index position represents a word

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataStructuresProject2017.DocumentStorage
+namespace TDSBackend.DocumentStorage
 {
     /*A documentVector contains all necessary information about a particular document
     The documentLocation contains information about where to find the document on the harddrive

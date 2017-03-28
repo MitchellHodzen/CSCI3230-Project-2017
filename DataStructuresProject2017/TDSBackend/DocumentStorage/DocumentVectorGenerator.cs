@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataStructuresProject2017.DocumentStorage
+namespace TDSBackend.DocumentStorage
 {
     public static class DocumentVectorGenerator
     {

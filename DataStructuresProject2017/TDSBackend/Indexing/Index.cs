@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataStructuresProject2017.Indexing {
+namespace TDSBackend.Indexing {
 
         /***************************************************************************** 
          *  This index class will create an dictionary of words and corresponding    *
@@ -24,20 +24,20 @@ namespace DataStructuresProject2017.Indexing {
         private void populateIndex(List<int> list) {
 
             //Loop through list of vectors and populate index
-            for (int i = 0; i < list.Count; i++) //loop through list index
-            {
-                int[] words = List.ElementAt(i).GetDocumentTerms();
-                for (int j = 0; j < words.Count; j++) //loop through array of words
-                {
-                    if (index.ContainsKey(j))
-                    {
-                        index[j].Add(i);
-                    } else
-                    {
-                        index.Add(j,new List<int>() { i });
-                    }
-                }
-            }
+            //for (int i = 0; i < list.Count; i++) //loop through list index
+            //{
+            //    int[] words = List.ElementAt(i).GetDocumentTerms();
+            //    for (int j = 0; j < words.Count; j++) //loop through array of words
+            //    {
+            //        if (index.ContainsKey(j))
+            //        {
+            //            index[j].Add(i);
+            //        } else
+            //        {
+            //            index.Add(j,new List<int>() { i });
+            //        }
+            //    }
+            //}
         }//end of populateIndex
 
         //Method to get values per key

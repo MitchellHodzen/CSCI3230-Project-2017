@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataStructuresProject2017.DocumentStorage;
+using TDSBackend.DocumentStorage;
 
-namespace DataStructuresProject2017
+namespace TDSBackend
 {
     class Program
     {
