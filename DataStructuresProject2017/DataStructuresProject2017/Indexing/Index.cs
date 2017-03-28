@@ -14,17 +14,17 @@ namespace DataStructuresProject2017.Indexing {
 
     public class Index {
         
-        private static Dictionary<int, int> index;
+        private static Dictionary<int, List<int>> index;
 
-        public Index(){
-            index = new Dictionary<int, int>();
+        public Index() {
+            index = new Dictionary<int, List<int>>();
         }
 
         //Method to populate the inde | O(n^2)
-        private void populateIndex(List<int> arg) {
+        private void populateIndex(List<int> list) {
 
             //Loop through list of vectors and populate index
-            for (int i = 0; i < arg.Count; i++) //loop through list index
+            for (int i = 0; i < list.Count; i++) //loop through list index
             {
                 int[] words = List.ElementAt(i).GetDocumentTerms();
                 for (int j = 0; j < words.Count; j++) //loop through array of words
@@ -34,14 +34,14 @@ namespace DataStructuresProject2017.Indexing {
                         index[j].Add(i);
                     } else
                     {
-                        index.Add(j,i);
+                        index.Add(j,new List<int>() { i });
                     }
                 }
             }
         }
 
         //Method to get values per key
-        public int getDocuments(int key) {
+        public List<int> getDocuments(int key) {
             return index[key];
         }
     }
