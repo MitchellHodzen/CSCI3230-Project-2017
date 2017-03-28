@@ -21,7 +21,7 @@ namespace TDSBackend.Indexing {
             index = new Dictionary<int, List<int>>();
         }
 
-        //Method to populate the index | O(n*m)
+        //Method to populate the index | O(nk) for n documents with max length k
         private void populateIndex(List<DocumentVector> list) {
 
             //Loop through list of vectors and populate index
