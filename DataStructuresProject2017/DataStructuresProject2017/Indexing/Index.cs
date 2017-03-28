@@ -17,7 +17,7 @@ namespace DataStructuresProject2017.Indexing {
         private static Dictionary<int, int> index;
 
         public Index(){
-            index = = new Dictionary<int, int>();
+            index = new Dictionary<int, int>();
         }
 
         //Method to populate the index
