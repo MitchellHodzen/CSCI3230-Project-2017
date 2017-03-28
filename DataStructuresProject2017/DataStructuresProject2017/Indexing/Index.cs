@@ -20,7 +20,7 @@ namespace DataStructuresProject2017.Indexing {
             index = new Dictionary<int, List<int>>();
         }
 
-        //Method to populate the index | O(n^2)
+        //Method to populate the index | O(n*m)
         private void populateIndex(List<int> list) {
 
             //Loop through list of vectors and populate index
