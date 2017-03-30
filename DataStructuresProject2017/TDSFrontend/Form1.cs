@@ -19,7 +19,9 @@ namespace TDSFrontend
 
         private void Search_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(this.inputText.Text);
+            String input = (this.inputText.Text);
+            //Send input here
+            MessageBox.Show(input);
         }
     }
 }
