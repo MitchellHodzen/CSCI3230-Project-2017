@@ -21,6 +21,8 @@ namespace TDSBackend
             v2.AddElement(1, 3);
             Console.WriteLine("The dot product of v1 and v2 is: " + SparseVector.DotProduct(v1, v2));
 
+            //Test norm
+            Console.WriteLine("The norm of v1 is: " + SparseVector.Norm(v1));
 
             //Test the document vector generator
             string input = "oh baby a tripple baby baby tripple oh oh oh oh";

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace TDSBackend.DocumentStorage
 {
     /*A sparse vector which contains information about the words that appear in the document and their frequency
@@ -26,6 +27,18 @@ namespace TDSBackend.DocumentStorage
                 dotProduct += temp;
             }
             return dotProduct;
+        }
+
+        public static double Norm(SparseVector vector)
+        {
+            //Returns the norm of the given vector
+            int[] indexes = vector.GetNonZeroIndexPositions();
+            double norm = 0;
+            for (int i = 0; i < indexes.Length; i++)
+            {
+                norm += vector.GetValueAtIndex(indexes[i]) * vector.GetValueAtIndex(indexes[i]);
+            }
+            return Math.Sqrt(norm);
         }
 
         //Internal array which contains all word frequency information about the document
