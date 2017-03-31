@@ -15,35 +15,39 @@ namespace TDSBackend.Indexing {
 
     public class Index {
         
-        private static Dictionary<int, List<int>> index;
+        private static Dictionary<int, List<DocumentVector>> index;
 
         public Index() {
-            index = new Dictionary<int, List<int>>();
+            index = new Dictionary<int, List<DocumentVector>>();
         }
 
         //Method to populate the index | O(nk) for n documents with max length k
         private void populateIndex(List<DocumentVector> list) {
 
-            //Loop through list of vectors and populate index
-            for (int i = 0; i < list.Count; i++) //loop through list index
+            //loop through list of vectors and populate index
+            for (int i = 0; i < list.Count; i++)
             {
                 int[] words = list.ElementAt(i).GetDocumentTerms();
-                for (int j = 0; j < words.Length; j++) //loop through array of words
+                //loop through array of words
+                for (int j = 0; j < words.Length; j++)
                 {
-                    if (index.ContainsKey(j))
+                    //if key is already in the index
+                    if (index.ContainsKey(j)) 
                     {
-                        index[j].Add(i);
+                        //add the vector to the key
+                        index[j].Add(list.ElementAt(i)); 
                     }
                     else
                     {
-                        index.Add(j, new List<int>() { i });
+                        //if the key is not in the index, add both the key and vector
+                        index.Add(j, new List<DocumentVector>() { list.ElementAt(i) });
                     }
                 }
             }
         }//end of populateIndex
 
         //Method to get values per key
-        public List<int> getDocuments(int key) {
+        public List<DocumentVector> getDocuments(int key) {
             return index[key];
         }//end of getDocuments
     }
