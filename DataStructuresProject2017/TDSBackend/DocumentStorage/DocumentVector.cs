@@ -30,6 +30,12 @@ namespace TDSBackend.DocumentStorage
         {
             return documentLocation;
         }
+
+        public double GetDocumentSimilarity(DocumentVector d2)
+        {
+            return SparseVector.CosineSimilarity(internalVector, d2.internalVector);
+        }
+
         public void Print()
         {
             //Prints out the internal vector of the document, used for testing

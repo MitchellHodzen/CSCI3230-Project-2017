@@ -24,6 +24,8 @@ namespace TDSBackend
             //Test norm
             Console.WriteLine("The norm of v1 is: " + SparseVector.Norm(v1));
 
+            //Test cosine similarity
+            Console.WriteLine("The cosine simlarity of v1 and v2 is: " + SparseVector.CosineSimilarity(v1, v2));
             //Test the document vector generator
             string input = "oh baby a tripple baby baby tripple oh oh oh oh";
             DocumentVector test = DocumentVectorGenerator.GenerateDocumentVector(input);

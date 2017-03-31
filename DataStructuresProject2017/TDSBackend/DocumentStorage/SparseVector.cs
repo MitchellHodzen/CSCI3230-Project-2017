@@ -41,6 +41,11 @@ namespace TDSBackend.DocumentStorage
             return Math.Sqrt(norm);
         }
 
+        public static double CosineSimilarity(SparseVector v1, SparseVector v2)
+        {
+            //Calculate the cosine similarity of two sparse vectors
+            return SparseVector.DotProduct(v1, v2) / (SparseVector.Norm(v1) * SparseVector.Norm(v2));
+        }
         //Internal array which contains all word frequency information about the document
         //internalMap<Word Index, Word Freqency>
         private Dictionary<int, int> internalMap = new Dictionary<int, int>();
