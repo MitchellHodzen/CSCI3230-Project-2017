@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DocumentCleaning\StringCleaner.cs" />
     <Compile Include="DocumentStorage\DocumentVector.cs" />
     <Compile Include="DocumentStorage\DocumentVectorGenerator.cs" />
     <Compile Include="DocumentStorage\SparseVector.cs" />
