@@ -61,6 +61,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backend.cs" />
+    <Compile Include="DocumentSimilarity\DocumentSimilarityCalculator.cs" />
     <Compile Include="DocumentStorage\DocumentVector.cs" />
     <Compile Include="DocumentStorage\DocumentVectorGenerator.cs" />
     <Compile Include="DocumentStorage\SparseVector.cs" />
@@ -85,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DocumentCleaning\DocumentCleaningReadMe.txt" />
+    <Content Include="DocumentSimilarity\DocumentSimilarityReadMe.txt" />
     <Content Include="DocumentStorage\DocumentStorageReadMe.txt" />
     <Content Include="Indexing\IndexingReadMe.txt" />
   </ItemGroup>
