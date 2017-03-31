@@ -22,7 +22,7 @@ namespace TDSBackend.DocumentStorage
             }
         }
 
-        public static DocumentVector GenerateDocumentVector(string cleaninput)
+        public static DocumentVector GenerateDocumentVector(string cleaninput, string documentLocation)
         {
             //Used to generate a document vector given a single clean string
 
@@ -42,7 +42,7 @@ namespace TDSBackend.DocumentStorage
             }
 
             //Create a new document vector
-            return new DocumentVector(null, termVector);
+            return new DocumentVector(documentLocation, termVector);
             //**NOTE** NEED TO GET THE DOCUMENT LOCATION/FILE FROM WORD CLEANER
         }
 

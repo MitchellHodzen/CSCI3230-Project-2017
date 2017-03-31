@@ -22,7 +22,7 @@ namespace TDSBackend.Indexing {
         }
 
         //Method to populate the index | O(nk) for n documents with max length k
-        private void populateIndex(List<DocumentVector> list) {
+        public void populateIndex(List<DocumentVector> list) {
 
             //loop through list of vectors and populate index
             for (int i = 0; i < list.Count; i++)

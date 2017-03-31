@@ -20,7 +20,7 @@ namespace TDSBackend
         }
         public Dictionary<DocumentVector, double> GetSortedSimilarityList(string input)
         {
-            DocumentVector inputVector = DocumentVectorGenerator.GenerateDocumentVector(input);
+            DocumentVector inputVector = DocumentVectorGenerator.GenerateDocumentVector(input, null);
             return DocumentSimilarityCalculator.GetDocumentSimilarityMap(inputVector);
         }
     }

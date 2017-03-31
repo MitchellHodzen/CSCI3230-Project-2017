@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TDSBackend.DocumentStorage;
+using TDSBackend.Indexing;
+using TDSBackend.DocumentSimilarity;
 
 namespace TDSBackend
 {
@@ -26,11 +28,25 @@ namespace TDSBackend
 
             //Test cosine similarity
             Console.WriteLine("The cosine simlarity of v1 and v2 is: " + SparseVector.CosineSimilarity(v1, v2));
-            //Test the document vector generator
-            string input = "oh baby a tripple baby baby tripple oh oh oh oh";
-            DocumentVector test = DocumentVectorGenerator.GenerateDocumentVector(input);
-            test.Print();
-            DocumentVectorGenerator.PrintTermMap();
+
+            //Test document vector similarity
+            String st1 = "The brown cow jumped over the moon";
+            String st2 = "The brown cow chewed on the grass";
+            String st3 = "The moon looks beautiful tonight";
+            DocumentVector d1 = DocumentVectorGenerator.GenerateDocumentVector(st1, "doc1");
+            DocumentVector d2 = DocumentVectorGenerator.GenerateDocumentVector(st2, "doc2");
+            DocumentVector d3 = DocumentVectorGenerator.GenerateDocumentVector(st3, "doc3");
+            Index index = new Index();
+            List<DocumentVector> dlist = new List<DocumentVector>();
+            dlist.Add(d2);
+            dlist.Add(d3);
+            index.populateIndex(dlist);
+            DocumentSimilarityCalculator.SetIndex(index);
+            Dictionary<DocumentVector, double> similarityMap = DocumentSimilarityCalculator.GetDocumentSimilarityMap(d1);
+            foreach (KeyValuePair<DocumentVector, double> k in similarityMap)
+            {
+                Console.WriteLine("Document: " + k.Key + ". Similarity: " + k.Value);
+            }
             Console.ReadLine();
         }
     }
