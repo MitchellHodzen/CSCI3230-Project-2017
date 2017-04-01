@@ -7,11 +7,14 @@ using TDSBackend.DocumentStorage;
 
 namespace TDSBackend.Indexing {
 
-        /***************************************************************************** 
-         *  This index class will create an dictionary of words and corresponding    *
-         *  documents associated with that word. This will allow for fast retrevial  *
-         *  of documents when a word is searched.                                    *
-         *****************************************************************************/
+    /***************************************************************************** 
+     *                                                                           *
+     * Index.cs will create an index of all words in the text files and map      *
+     * them to the documents they are contained in. This index will allow        *
+     * for fast information retrieval due to the index using a hash to search    *
+     * for values by given a key.                                                *
+     *                                                                           *
+     ****************************************************************************/
 
     public class Index {
         
@@ -26,9 +29,7 @@ namespace TDSBackend.Indexing {
             return index[key];
         }//end of getDocuments
 
-/********************************************************************************************/
-
-        /** Method to populate the index given a DocumentVector | **/
+        /** Method to populate the index given a DocumentVector | O(n) where n is the number of words in the vector **/
         public void indexPopulate(DocumentVector vector) {
 
             //get the words from the vector
