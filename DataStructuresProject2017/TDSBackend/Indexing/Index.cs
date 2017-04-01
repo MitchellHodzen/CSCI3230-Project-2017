@@ -8,13 +8,11 @@ using TDSBackend.DocumentStorage;
 namespace TDSBackend.Indexing {
 
     /***************************************************************************** 
-     *                                                                           *
      * Index.cs will create an index of all words in the text files and map      *
      * them to the documents they are contained in. This index will allow        *
      * for fast information retrieval due to the index using a hash to search    *
      * for values by given a key.                                                *
-     *                                                                           *
-     ****************************************************************************/
+     *****************************************************************************/
 
     public class Index {
         
