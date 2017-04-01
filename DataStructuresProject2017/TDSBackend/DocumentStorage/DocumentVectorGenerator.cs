@@ -46,6 +46,32 @@ namespace TDSBackend.DocumentStorage
             //**NOTE** NEED TO GET THE DOCUMENT LOCATION/FILE FROM WORD CLEANER
         }
 
+        public static DocumentVector GenerateInputVector(string input)
+        {
+            //Used to generate a document vector for user input
+
+            //Splits the clean string into individual words
+            string[] words = input.Split(' ');
+
+            //Creates the term vector used when creating the document vector
+            SparseVector termVector = new SparseVector();
+            for (int i = 0; i < words.Length; i++)
+            {
+                //Since this is user input we don't want to add it to the map if it isnt there. So only add it to the vector if it exists in at least one other document
+                if (termMap.ContainsKey(words[i]))
+                {
+                    //Only adds the word if it exists in at least one other document
+                    int currentWordIndex = termMap[words[i]];
+                    //Adds the current word to the term vector
+                    //Note that if the word is already in the vector then the value is incremented by 1, if not the value for that word is set to 1
+                    termVector.AddElement(currentWordIndex, 1);
+                }
+            }
+            //Create a new document vector
+            return new DocumentVector(null, termVector);
+            //**NOTE** NEED TO GET THE DOCUMENT LOCATION/FILE FROM WORD CLEANER
+        }
+
         private static int GetTermIndex(string term)
         {
             if (termMap.ContainsKey(term))
@@ -61,7 +87,6 @@ namespace TDSBackend.DocumentStorage
                 termIndex++;
                 return currentTermIndex;
             }
-
         }
     }
 }

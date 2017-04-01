@@ -32,15 +32,15 @@ namespace TDSBackend.Indexing {
                 for (int j = 0; j < words.Length; j++)
                 {
                     //if key is already in the index
-                    if (index.ContainsKey(j)) 
+                    if (index.ContainsKey(words[j])) 
                     {
                         //add the vector to the key
-                        index[j].Add(list.ElementAt(i)); 
+                        index[words[j]].Add(list.ElementAt(i)); 
                     }
                     else
                     {
                         //if the key is not in the index, add both the key and vector
-                        index.Add(j, new List<DocumentVector>() { list.ElementAt(i) });
+                        index.Add(words[j], new List<DocumentVector>() { list.ElementAt(i) });
                     }
                 }
             }
