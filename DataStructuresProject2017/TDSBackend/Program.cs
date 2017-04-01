@@ -31,7 +31,7 @@ namespace TDSBackend
                 System.Diagnostics.Debug.WriteLine(e.Message);
             }
 
-            /*
+            
             //Test dot product
             SparseVector v1 = new SparseVector();
             v1.AddElement(0, 1);
@@ -65,7 +65,7 @@ namespace TDSBackend
             {
                 Console.WriteLine("Document: " + k.Key + ". Similarity: " + k.Value);
             }
-            Console.ReadLine();*/
+            Console.ReadLine();
         }
     }
 }
