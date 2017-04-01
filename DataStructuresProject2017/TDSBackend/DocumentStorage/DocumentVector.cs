@@ -38,6 +38,7 @@ namespace TDSBackend.DocumentStorage
 
         public override String ToString()
         {
+            //Prints out the document location
             return documentLocation;
         }
 

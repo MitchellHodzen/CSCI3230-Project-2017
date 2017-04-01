@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TDSBackend.DocumentStorage;
 using TDSBackend.Indexing;
 using TDSBackend.DocumentSimilarity;
+
 namespace TDSBackend
 {
     public class Backend
@@ -13,22 +14,27 @@ namespace TDSBackend
         public Backend(string location)
         {
             Index index = new Index();
-
-
-
-            //Create document vectors and populate index here
-            //Placeholder:
-            String st1 = "The brown cow chewed on the grass";
-            String st2 = "The moon looks beautiful tonight";
-            DocumentVector d1 = DocumentVectorGenerator.GenerateDocumentVector(st1, "doc1");
-            DocumentVector d2 = DocumentVectorGenerator.GenerateDocumentVector(st2, "doc2");
+            //Read each file in the given directory and create a document vector for it
+            string[] filePaths = System.IO.Directory.GetFiles(location);
             List<DocumentVector> dlist = new List<DocumentVector>();
-            dlist.Add(d1);
-            dlist.Add(d2);
+            for (int i = 0; i < filePaths.Length; i++)
+            {
+                try
+                {
+                    //Here we would also add it to the index
+                    string text = System.IO.File.ReadAllText(filePaths[i]);
+                    DocumentVector dv = DocumentVectorGenerator.GenerateDocumentVector(text, filePaths[i]);
+                    dlist.Add(dv);
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine("Could not read file at location: " + filePaths[i]);
+                    System.Diagnostics.Debug.WriteLine(e.Message);
+                }
+            }
+
+            //Populate the index
             index.populateIndex(dlist);
-
-
-
             DocumentSimilarityCalculator.SetIndex(index);
         }
         public Dictionary<DocumentVector, double> GetSortedSimilarityList(string input)

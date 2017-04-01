@@ -17,6 +17,9 @@ namespace TDSBackend
         {
             //PUT TEST CODE HERE
             //Test String cleaner
+            string resourcePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\Resources";
+            Backend backend = new Backend(resourcePath);
+
 
             StringCleaner testClean = new StringCleaner();
             try
@@ -49,7 +52,7 @@ namespace TDSBackend
 
             //Test document vector similarity
             Console.WriteLine("Document Similarity test:");
-            Backend backend = new Backend(null);
+
             String input = "The brown cow jumped over the moon";
             Console.WriteLine("Input: " + input);
             Dictionary<DocumentVector, double> similarityMap = backend.GetSortedSimilarityList(input);
