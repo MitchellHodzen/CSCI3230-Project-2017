@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using TDSBackend.DocumentStorage;
 using TDSBackend.Indexing;
 using TDSBackend.DocumentSimilarity;
+using TDSBackend.DocumentCleaning;
+using System.IO;
 
 namespace TDSBackend
 {
@@ -14,6 +16,22 @@ namespace TDSBackend
         static void Main(string[] args)
         {
             //PUT TEST CODE HERE
+            //Test String cleaner
+
+            StringCleaner testClean = new StringCleaner();
+            try
+            {
+                string text = File.ReadAllText(@"C:\Users\Dalton\Documents\visual studio 2015\Projects\ConsoleApplication2\ConsoleApplication2\testfile.txt");
+                System.Diagnostics.Debug.WriteLine(testClean.clean(text));
+
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("The file could not be read.");
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+
+            /*
             //Test dot product
             SparseVector v1 = new SparseVector();
             v1.AddElement(0, 1);
@@ -47,7 +65,7 @@ namespace TDSBackend
             {
                 Console.WriteLine("Document: " + k.Key + ". Similarity: " + k.Value);
             }
-            Console.ReadLine();
+            Console.ReadLine();*/
         }
     }
 }

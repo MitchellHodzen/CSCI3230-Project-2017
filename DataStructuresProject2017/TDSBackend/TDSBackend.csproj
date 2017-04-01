@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Backend.cs" />
+    <Compile Include="DocumentCleaning\StringCleaner.cs" />
     <Compile Include="DocumentSimilarity\DocumentSimilarityCalculator.cs" />
     <Compile Include="DocumentStorage\DocumentVector.cs" />
     <Compile Include="DocumentStorage\DocumentVectorGenerator.cs" />

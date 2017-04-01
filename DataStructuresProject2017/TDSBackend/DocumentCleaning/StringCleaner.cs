@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace DataStructuresProject
+namespace TDSBackend.DocumentCleaning
 {
     class StringCleaner
     {
@@ -105,22 +105,6 @@ namespace DataStructuresProject
             cleanString = cleanString.Replace(Environment.NewLine, "");
 
             return cleanString.ToLower();
-        }
-
-        static void Main(string[] args)
-        {
-            StringCleaner test = new StringCleaner();
-            try
-            {
-                string text = File.ReadAllText(@"C:\Users\Dalton\Documents\visual studio 2015\Projects\ConsoleApplication2\ConsoleApplication2\testfile.txt");
-                System.Diagnostics.Debug.WriteLine(test.clean(text));
-
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine("The file could not be read.");
-                System.Diagnostics.Debug.WriteLine(e.Message);
-            }
         }
     }
 }
