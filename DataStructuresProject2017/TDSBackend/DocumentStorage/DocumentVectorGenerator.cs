@@ -24,9 +24,11 @@ namespace TDSBackend.DocumentStorage
 
         public static DocumentVector GenerateDocumentVector(string cleaninput, string documentLocation)
         {
-            //Used to generate a document vector given a single clean string
+            //Used to generate a document vector given an input string
 
-            //Splits the clean string into individual words
+            //**NOTE** clean string here
+
+            //Splits the string into individual words
             string[] words = cleaninput.Split(' ');
 
             //Creates the term vector used when creating the document vector
@@ -43,7 +45,6 @@ namespace TDSBackend.DocumentStorage
 
             //Create a new document vector
             return new DocumentVector(documentLocation, termVector);
-            //**NOTE** NEED TO GET THE DOCUMENT LOCATION/FILE FROM WORD CLEANER
         }
 
         public static DocumentVector GenerateInputVector(string input)

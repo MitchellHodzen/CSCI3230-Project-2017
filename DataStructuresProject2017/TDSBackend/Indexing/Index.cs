@@ -21,33 +21,6 @@ namespace TDSBackend.Indexing {
             index = new Dictionary<int, List<DocumentVector>>();
         }
 
-        /** Method to populate the index given a list| O(nk) for n documents with max length k **/
-        public void populateIndex(List<DocumentVector> list) {
-
-            //loop through the list
-            for (int i = 0; i < list.Count; i++)
-            {
-                //Store the words in the vector
-                int[] words = list.ElementAt(i).GetDocumentTerms();
-
-                //loop through array of words
-                for (int j = 0; j < words.Length; j++)
-                {
-                    //if key is already in the index
-                    if (index.ContainsKey(words[j])) 
-                    {
-                        //add the vector to the key
-                        index[words[j]].Add(list.ElementAt(i)); 
-                    }
-                    else
-                    {
-                        //if the key is not in the index, add both the key and vector
-                        index.Add(words[j], new List<DocumentVector>() { list.ElementAt(i) });
-                    }
-                }
-            }
-        }//end of populateIndex
-
         /** Method to get values per key **/
         public List<DocumentVector> getDocuments(int key) {
             return index[key];
