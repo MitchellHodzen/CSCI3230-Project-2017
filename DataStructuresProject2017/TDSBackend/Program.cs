@@ -8,6 +8,8 @@ using TDSBackend.Indexing;
 using TDSBackend.DocumentSimilarity;
 using TDSBackend.DocumentCleaning;
 using System.IO;
+using TDSFrontend;
+using System.Windows.Forms;
 
 namespace TDSBackend
 {
@@ -17,10 +19,11 @@ namespace TDSBackend
         {
             //PUT TEST CODE HERE
             //Test String cleaner
+            
             string resourcePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\Resources";
             Backend backend = new Backend(resourcePath);
 
-
+            /*
             StringCleaner testClean = new StringCleaner();
             try
             {
@@ -52,7 +55,7 @@ namespace TDSBackend
 
             //Test document vector similarity
             Console.WriteLine("Document Similarity test:");
-
+            */
             String input = "The brown cow jumped over the moon";
             Console.WriteLine("Input: " + input);
             Dictionary<DocumentVector, double> similarityMap = backend.GetSortedSimilarityList(input);
@@ -61,6 +64,16 @@ namespace TDSBackend
                 Console.WriteLine("Document: " + k.Key + ". Similarity: " + k.Value);
             }
             Console.ReadLine();
+
+            //Test Document Display
+            DocumentDisplayer testDisplayer = new DocumentDisplayer();
+            
+            //testDisplayer.display(similarityMap);
+            for (int i = 0; i < similarityMap.Count; i++)
+            {
+                testDisplayer.sendDoc(similarityMap.ElementAt(i).Key.GetDocumentLocation());
+            }
+            Application.Run(testDisplayer);
         }
     }
 }

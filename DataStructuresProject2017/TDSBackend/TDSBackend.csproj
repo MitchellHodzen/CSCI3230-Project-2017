@@ -53,6 +53,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -91,6 +92,12 @@
     <Content Include="DocumentSimilarity\DocumentSimilarityReadMe.txt" />
     <Content Include="DocumentStorage\DocumentStorageReadMe.txt" />
     <Content Include="Indexing\IndexingReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TDSFrontend\TDSFrontend.csproj">
+      <Project>{2947a976-3de4-410f-8089-33a61580d7c0}</Project>
+      <Name>TDSFrontend</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
