@@ -8,8 +8,6 @@ using TDSBackend.Indexing;
 using TDSBackend.DocumentSimilarity;
 using TDSBackend.DocumentCleaning;
 using System.IO;
-using TDSFrontend;
-using System.Windows.Forms;
 
 namespace TDSBackend
 {
@@ -64,16 +62,6 @@ namespace TDSBackend
                 Console.WriteLine("Document: " + k.Key + ". Similarity: " + k.Value);
             }
             Console.ReadLine();
-
-            //Test Document Display
-            DocumentDisplayer testDisplayer = new DocumentDisplayer();
-            
-            //testDisplayer.display(similarityMap);
-            for (int i = 0; i < similarityMap.Count; i++)
-            {
-                testDisplayer.sendDoc(similarityMap.ElementAt(i).Key.GetDocumentLocation());
-            }
-            Application.Run(testDisplayer);
         }
     }
 }
