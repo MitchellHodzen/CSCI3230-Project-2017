@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TDSBackend;
+using TDSBackend.DocumentStorage;
 
 namespace TDSFrontend
 {
@@ -18,19 +19,22 @@ namespace TDSFrontend
         public Form1()
         {
             InitializeComponent();
-            backend = new Backend(null);
+            string resourcePath = System.IO.Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName + "\\TDSBackend\\Resources";
+            backend = new Backend(resourcePath);
         }
 
         private void Search_Click(object sender, EventArgs e)
         {
+            flowLayoutPanel1.Controls.Clear();
             String input = (this.inputText.Text);
 
-            List<string> sortedList = backend.GetSortedSimilarityList(input);
-            for (int i = 0; i < sortedList.Count; i++)
+            List<KeyValuePair<DocumentVector, double>> sortedList = backend.GetSortedSimilarityList(input);
+            for (int i = sortedList.Count - 1; i >= 0; i--)
             {
                 LinkLabel pcurrentDoc = new LinkLabel();
-                pcurrentDoc.Text = sortedList[i];
-                pcurrentDoc.Links[0].LinkData = sortedList[i];
+                pcurrentDoc.Text = sortedList.ElementAt(i).Key.GetDocumentLocation();
+                pcurrentDoc.Text = System.IO.Path.GetFileName(sortedList.ElementAt(i).Key.GetDocumentLocation());
+                pcurrentDoc.Links[0].LinkData = sortedList.ElementAt(i).Key.GetDocumentLocation();
 
                 pcurrentDoc.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(linkClicked);
                 flowLayoutPanel1.Controls.Add(pcurrentDoc);
@@ -40,7 +44,7 @@ namespace TDSFrontend
         private void linkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
         {
             //open file
-            MessageBox.Show((string)e.Link.LinkData);
+            System.Diagnostics.Process.Start((string)e.Link.LinkData);
 
         }
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)

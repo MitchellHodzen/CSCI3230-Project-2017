@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TDSBackend.DocumentCleaning;
 
 namespace TDSBackend.DocumentStorage
 {
@@ -22,14 +23,13 @@ namespace TDSBackend.DocumentStorage
             }
         }
 
-        public static DocumentVector GenerateDocumentVector(string cleaninput, string documentLocation)
+        public static DocumentVector GenerateDocumentVector(string input, string documentLocation)
         {
             //Used to generate a document vector given an input string
-
-            //**NOTE** clean string here
-
+            //Clean the string
+            input = StringCleaner.clean(input);
             //Splits the string into individual words
-            string[] words = cleaninput.Split(' ');
+            string[] words = input.Split(' ');
 
             //Creates the term vector used when creating the document vector
             SparseVector termVector = new SparseVector();
@@ -50,8 +50,9 @@ namespace TDSBackend.DocumentStorage
         public static DocumentVector GenerateInputVector(string input)
         {
             //Used to generate a document vector for user input
-
-            //Splits the clean string into individual words
+            //Clean the string
+            input = StringCleaner.clean(input);
+            //Splits the string into individual words
             string[] words = input.Split(' ');
 
             //Creates the term vector used when creating the document vector
