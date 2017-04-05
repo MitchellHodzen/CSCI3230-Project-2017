@@ -26,6 +26,7 @@ namespace TDSBackend.DocumentStorage
             //Returns an array which contains the index positions of the words which appear in the document
             return internalVector.GetNonZeroIndexPositions();
         }
+
         public string GetDocumentLocation()
         {
             return documentLocation;

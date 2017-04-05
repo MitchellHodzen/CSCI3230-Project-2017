@@ -18,19 +18,15 @@ namespace TDSBackend.DocumentSimilarity
             List<DocumentVector> similarDocs = new List<DocumentVector>();
             int[] inputTerms = inputVector.GetDocumentTerms();
             HashSet<DocumentVector> docsToCheck = new HashSet<DocumentVector>();
-            Console.WriteLine("Getting documents from index...");
             for (int i = 0; i < inputTerms.Length; i++)
             {
                 similarDocs.AddRange(index.getDocuments(inputTerms[i]));
             }
-            Console.WriteLine("Cleaning returned similar doc index...");
             foreach (DocumentVector dv in similarDocs)
             {
                 docsToCheck.Add(dv);
             }
             Dictionary<DocumentVector, double> similarityMap = new Dictionary<DocumentVector, double>();
-            Console.WriteLine("Calculating similarity map...");
-            Console.WriteLine("Docs to check: " + docsToCheck.Count());
             for (int i = 0; i < docsToCheck.Count(); i++)
             {
                 similarityMap.Add(docsToCheck.ElementAt(i), inputVector.GetDocumentSimilarity(docsToCheck.ElementAt(i)));

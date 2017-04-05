@@ -43,15 +43,7 @@ namespace TDSBackend.DocumentStorage
 
         public static double CosineSimilarity(SparseVector v1, SparseVector v2)
         {
-            Console.WriteLine("Calculating dot product...");
-            double dot = SparseVector.DotProduct(v1, v2);
-            Console.WriteLine("Calculating norm of v1...");
-            double normv1 = SparseVector.Norm(v1);
-            Console.WriteLine("Calculating norm of v2...");
-            double normv2 = SparseVector.Norm(v2);
-            //Calculate the cosine similarity of two sparse vectors
-            //return SparseVector.DotProduct(v1, v2) / (SparseVector.Norm(v1) * SparseVector.Norm(v2));
-            return dot / (normv1 * normv2);
+            return SparseVector.DotProduct(v1, v2) / (SparseVector.Norm(v1) * SparseVector.Norm(v2));
         }
         //Internal array which contains all word frequency information about the document
         //internalMap<Word Index, Word Freqency>
@@ -60,12 +52,7 @@ namespace TDSBackend.DocumentStorage
         public int[] GetNonZeroIndexPositions()
         {
             //Returns an array which holds the values of all keys in the internal map
-            int[] termArray = new int[internalMap.Count()];
-            for (int i = 0; i < internalMap.Count(); i++)
-            {
-                termArray[i] = internalMap.ElementAt(i).Key;
-            }
-            return termArray;
+            return internalMap.Keys.ToArray();
         }
 
         public void AddElement(int indexPosition, int value)
