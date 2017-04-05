@@ -18,9 +18,9 @@ namespace TDSBackend
             //PUT TEST CODE HERE
             //Test String cleaner
             
-            //string resourcePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\Resources";
-            //Backend backend = new Backend(resourcePath);
-
+            string resourcePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\Resources";
+            Backend backend = new Backend(resourcePath);
+            
             /*
             StringCleaner testClean = new StringCleaner();
             try
@@ -54,14 +54,17 @@ namespace TDSBackend
             //Test document vector similarity
             Console.WriteLine("Document Similarity test:");
             */
-            //String input = "The brown cow jumped over the moon";
-            //Console.WriteLine("Input: " + input);
-            ////Dictionary<DocumentVector, double> similarityMap = backend.GetSortedSimilarityList(input);
-            ////foreach (KeyValuePair<DocumentVector, double> k in similarityMap)
-            ////{
-            ////    Console.WriteLine("Document: " + k.Key + ". Similarity: " + k.Value);
-            ////}
-            //Console.ReadLine();
+            String input = "God has come";
+            Console.WriteLine("Input: " + input);
+            Console.WriteLine("------------------------------------");
+            Console.ReadLine();
+            List<KeyValuePair<DocumentVector, double>> similarityMap = backend.GetSortedSimilarityList(input);
+            Console.ReadLine();
+            foreach (KeyValuePair<DocumentVector, double> k in similarityMap)
+            {
+                Console.WriteLine("Document: " + k.Key + ". Similarity: " + k.Value);
+            }
+            Console.ReadLine();
         }
     }
 }

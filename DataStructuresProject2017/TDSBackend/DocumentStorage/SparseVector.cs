@@ -43,8 +43,15 @@ namespace TDSBackend.DocumentStorage
 
         public static double CosineSimilarity(SparseVector v1, SparseVector v2)
         {
+            Console.WriteLine("Calculating dot product...");
+            double dot = SparseVector.DotProduct(v1, v2);
+            Console.WriteLine("Calculating norm of v1...");
+            double normv1 = SparseVector.Norm(v1);
+            Console.WriteLine("Calculating norm of v2...");
+            double normv2 = SparseVector.Norm(v2);
             //Calculate the cosine similarity of two sparse vectors
-            return SparseVector.DotProduct(v1, v2) / (SparseVector.Norm(v1) * SparseVector.Norm(v2));
+            //return SparseVector.DotProduct(v1, v2) / (SparseVector.Norm(v1) * SparseVector.Norm(v2));
+            return dot / (normv1 * normv2);
         }
         //Internal array which contains all word frequency information about the document
         //internalMap<Word Index, Word Freqency>

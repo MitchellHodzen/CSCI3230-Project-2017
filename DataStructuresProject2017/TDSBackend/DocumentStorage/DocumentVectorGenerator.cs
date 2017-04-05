@@ -11,8 +11,12 @@ namespace TDSBackend.DocumentStorage
     {
         //Map which holds each word that appears in all documents and their index position
         private static Dictionary<string, int> termMap = new Dictionary<string, int>();
+
         //index position of next word to add to the termMap
         private static int termIndex = 0;
+
+        //Stop word hashset
+        private static HashSet<string> stopWords = new HashSet<string>();
 
         public static void PrintTermMap()
         {
@@ -35,12 +39,16 @@ namespace TDSBackend.DocumentStorage
             SparseVector termVector = new SparseVector();
             for (int i = 0; i < words.Length; i++)
             {
-                //Check if the current word is in the overall termMap
-                int currentWordIndex = GetTermIndex(words[i]);
+                //If the term is a stop word dont add it, otherwise add it
+                if (!stopWords.Contains(words[i]))
+                {
+                    //Check if the current word is in the overall termMap
+                    int currentWordIndex = GetTermIndex(words[i]);
 
-                //Adds the current word to the term vector
-                //Note that if the word is already in the vector then the value is incremented by 1, if not the value for that word is set to 1
-                termVector.AddElement(currentWordIndex, 1);
+                    //Adds the current word to the term vector
+                    //Note that if the word is already in the vector then the value is incremented by 1, if not the value for that word is set to 1
+                    termVector.AddElement(currentWordIndex, 1);
+                }
             }
 
             //Create a new document vector
@@ -60,7 +68,7 @@ namespace TDSBackend.DocumentStorage
             for (int i = 0; i < words.Length; i++)
             {
                 //Since this is user input we don't want to add it to the map if it isnt there. So only add it to the vector if it exists in at least one other document
-                if (termMap.ContainsKey(words[i]))
+                if (!stopWords.Contains(words[i]) && termMap.ContainsKey(words[i]))
                 {
                     //Only adds the word if it exists in at least one other document
                     int currentWordIndex = termMap[words[i]];
@@ -88,6 +96,26 @@ namespace TDSBackend.DocumentStorage
                 int currentTermIndex = termIndex;
                 termIndex++;
                 return currentTermIndex;
+            }
+        }
+        
+        public static void PopulateStopWordsSet(string location)
+        {
+            string filePath = System.IO.Directory.GetParent(location) + "\\StopWords.txt";
+            try
+            {
+                //Extract text from the file, create a document vector for the document, add it to the index
+                string text = System.IO.File.ReadAllText(filePath);
+                string[] words = text.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < words.Length; i++)
+                {
+                    stopWords.Add(words[i]);
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Could not read stop words file at location: " + filePath);
+                System.Diagnostics.Debug.WriteLine(e.Message);
             }
         }
     }

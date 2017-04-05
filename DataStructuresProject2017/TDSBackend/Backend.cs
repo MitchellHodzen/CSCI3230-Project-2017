@@ -14,7 +14,7 @@ namespace TDSBackend
         public Backend(string location)
         {
             Index index = new Index();
-
+            DocumentVectorGenerator.PopulateStopWordsSet(location);
             //Read each file in the given directory and create a document vector for it
             Console.WriteLine("Creating document vectors and populating index...");
             string[] filePaths = System.IO.Directory.GetFiles(location);
@@ -33,7 +33,10 @@ namespace TDSBackend
                     System.Diagnostics.Debug.WriteLine(e.Message);
                 }
             }
-            
+            //DocumentVectorGenerator.PrintTermMap();
+            //Console.ReadLine();
+
+
             DocumentSimilarityCalculator.SetIndex(index);
             Console.WriteLine("Done.");
         }
