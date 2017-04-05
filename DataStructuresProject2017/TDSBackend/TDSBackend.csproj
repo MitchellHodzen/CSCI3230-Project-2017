@@ -91,7 +91,7 @@
     <Content Include="DocumentCleaning\DocumentCleaningReadMe.txt" />
     <Content Include="DocumentSimilarity\DocumentSimilarityReadMe.txt" />
     <Content Include="DocumentStorage\DocumentStorageReadMe.txt" />
-    <Content Include="Indexing\IndexingReadMe.txt" />
+    <Content Include="Indexing\IndexREADME.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

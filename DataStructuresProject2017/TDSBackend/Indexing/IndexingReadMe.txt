@@ -1,1 +1,0 @@
-﻿For inverted index code
