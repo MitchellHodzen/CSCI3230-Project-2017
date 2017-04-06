@@ -90,7 +90,7 @@
   <ItemGroup>
     <Content Include="DocumentCleaning\DocumentCleaningReadMe.txt" />
     <Content Include="DocumentSimilarity\DocumentSimilarityReadMe.txt" />
-    <Content Include="DocumentStorage\DocumentStorageReadMe.txt" />
+    <Content Include="DocumentStorage\SparseVectorAnalysis.txt" />
     <Content Include="Indexing\IndexREADME.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

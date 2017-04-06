@@ -36,17 +36,5 @@ namespace TDSBackend.DocumentStorage
         {
             return SparseVector.CosineSimilarity(internalVector, d2.internalVector);
         }
-
-        public override String ToString()
-        {
-            //Prints out the document location
-            return documentLocation;
-        }
-
-        public void Print()
-        {
-            //Prints out the internal vector of the document, used for testing
-            internalVector.PrintVector();
-        }
     }
 }

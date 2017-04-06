@@ -1,1 +1,0 @@
-﻿For document vector code

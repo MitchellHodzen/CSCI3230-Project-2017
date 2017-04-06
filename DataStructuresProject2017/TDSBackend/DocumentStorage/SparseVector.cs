@@ -15,9 +15,13 @@ namespace TDSBackend.DocumentStorage
 
     public class SparseVector
     {
+        //Internal array which contains all word frequency information about the document
+        //internalMap<Word Index, Word Freqency>
+        private Dictionary<int, int> internalMap = new Dictionary<int, int>();
         public static double DotProduct(SparseVector v1, SparseVector v2)
         {
             //Calculates the dot product of two vectors v1 and v2
+            //Note: Faster if v1 has less index positions with non-zero values than v2
             int[] indexes = v1.GetNonZeroIndexPositions();
             double temp = 0;
             double dotProduct = 0;
@@ -45,9 +49,6 @@ namespace TDSBackend.DocumentStorage
         {
             return SparseVector.DotProduct(v1, v2) / (SparseVector.Norm(v1) * SparseVector.Norm(v2));
         }
-        //Internal array which contains all word frequency information about the document
-        //internalMap<Word Index, Word Freqency>
-        private Dictionary<int, int> internalMap = new Dictionary<int, int>();
 
         public int[] GetNonZeroIndexPositions()
         {
@@ -79,15 +80,6 @@ namespace TDSBackend.DocumentStorage
                 return value;
             }
             return value;
-        }
-
-        public void PrintVector()
-        {
-            //Quick way to print out the vector, for testing
-            foreach (KeyValuePair<int, int> p in internalMap)
-            {
-                Console.WriteLine("{0}, {1}", p.Key, p.Value);
-            }
         }
     }
 }

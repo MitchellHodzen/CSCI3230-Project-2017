@@ -1,0 +1,57 @@
+﻿Mitchell Hodzen - SparseVector analysis
+
+Sparse Vector:
+A sparse vector represents a mathematical vector in which a majority of the entries are 0. That is, in any given sparse vector there are relatively few columns (compared to the total amount of columns) that have non-zero entries in them.
+To save space, and to make computations substantially faster, we can simply hold the index positions where a non-zero value is held and the value in that position.
+To do this we use a Dictionary (Note that in .NET a dictionary is actually a map, so it will be referred to as a map for the rest of the analysis) where any given KEY is an index with a non-zero entry, and the VALUE for that key is the value at that index. 
+Because a majority of the indexes in a sparse vector are 0, this reduces memory overhead and makes calculations such as the norm and the dot product (used to find cosine similarity) much faster.
+
+Any given sparse vector has the following fields:
+	Dictionary<int, int> internalMap: The internal map where we hold all non-zero indexes and values. The KEY is the index where a non-zero value is held and the VALUE for that key is the value at that index.
+
+Methods:
+AddElement(index, value): This method adds values into the vector. First, it checks to see if there is already a value at the given index position.
+	If there is a value already at that position, we add the given value to the value already there.
+	If there is not a value already at that position, we add that index position to the internal map and add the given value at that index position.
+Because we do this using a map, checking if there is a value at a given key and adding a value to a given key takes (in most cases) constant time, so the runtime complexity of this method is O(1).
+
+GetValueAtIndex(index): This method returns whatever value is in the specified index of the vector.
+	If the vector has a value at the specified index, that value is returned.
+	If the vector does not have a value at the specified index, that value is understood to be 0, so 0 is returned.
+Because we look up this value using a map, finding the value given the index (key) takes (in most cases) constant time, so the runtime complexity of this method is O(1).
+
+GetNonZeroIndexPositions(): This method returns an array where each element in the array represents an index position in the vector where the value is non-zero.
+To return these indexes, which is every key in the map, we use the Keys.ToArray() method which takes constant time, so the runtime complexity of this method is O(1).
+
+In order to calculate the Cosine similarity of two vectors we need to first define two functions: Norm and Dot product
+	Note: These two functions are static as they are simply operations that can be performed on sparse vectors.
+
+static Norm(vector): Calculates the norm of a given vector. 
+				PUT NORM FORMULA HERE
+				PUT NORM FORMULA HERE
+				PUT NORM FORMULA HERE
+To do this we first get an array of each index position where a non-zero value is held by calling the GetNonZeroIndexPosition() function. This operation takes O(1) time.
+Then, we loop through each index position and add on the square of the value at that position to the total. To loop up those values we use the GetValueAtIndex() function, which takes O(1) time. We do this for each index in the array, so in total this summation takes O(k) time, where k is the amount of index positions with non-zero values in the vector.
+Finally, we take the square root of the total value and return it. This final value is the norm of the passed in vector. This operation takes O(1) time.
+Overall this method takes linear time, so the runtime complexity of this method is O(k), where k is the amount of indexes in the vector that have non-zero entries.
+
+static DotProduct(v1, v2): Calculates the dot product of two given vectors.
+				PUT DOT PRODUCT FORMULA HERE
+				PUT DOT PRODUCT FORMULA HERE
+				PUT DOT PRODUCT FORMULA HERE
+To do this we first get an array of each index position in the first vector where a non-zero value is held by calling the GetNonZeroIndexPosition() function. This operation takes O(1) time.
+Next, we loop through each index position in that array, multiply the values at that position in v1 and v2 together, and that that to the total. Finding values at an index position uses the function GetValueAtIndex(), which takes O(1) time. We do this for each value in the array, so in total this step takes O(k) time, where k is the amount of index positions with non-zero values in v1.
+	Note: Since index positions not held in the internal map are understood to be zero we only need to check one vector (preferably the smaller one), since we only care about values the two vectors have in common. Since all other values are understood to be zero, and zero multiplied by any value is zero, all other summations would go to 0 anyways and not add anything to the total.
+Finally we return the total. This total is the final value for the dot product between the two sparse vectors v1 and v2. 
+Overall this method takes linear time, so the runtime complexity of this method is O(k), where k is the amount of indexes in v1 that have non-zero entries.
+
+Using the two above functions we can now find the Cosine similarity of two given vectors:
+statid CosineSimliarity(v1, v2): Calculates the Cosine similarity of two given vectors.
+				PUT COSINE FORMULA HERE
+				PUT COSINE FORMULA HERE
+				PUT COSINE FORMULA HERE
+To do this we first calculate the dot product of the two vectors by calling SparseVector.DotProduct(v1, v2). This takes O(k) time where k is the max length amount of non-zero indexes in a sparse vector.
+Next we divide that by the norm of both vectors multiplied together. To do this we call SparseVector.Norm() twice. This takes O(k) time each.
+We then return this value. This value is the cosine similarity of two given vectors.
+Overall this method takes O(3k) time, simplified down to O(k), where k is the max amount of index positions containing non-zero entries in a sparse vector.
+
