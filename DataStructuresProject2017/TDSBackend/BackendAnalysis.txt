@@ -1,0 +1,38 @@
+﻿Mitchell Hodzen - BackendAnalysis
+
+Backend:
+The backend class file is how we allow the front end to interface with the backend, and how we tie everything together.
+The Backend class has two things:
+	A constructor, which reads the documents from the resources folder, creates document vectors out of them, and populates the inverted index with those documents
+	A GetDocumentSimilarityList method which returns a sorted list of key value pairs, where the key is the document and the value is the similarity to the given input. This list is sorted by most similar to least similar.
+
+Constructor:
+DocumentVector(location): The constructor reads all text documents from a resource folder, generates document vectors for those documents, and populates the inverted index with those documents.
+First, we populate the list of stop words given a stop words text file. See DocumentVectorGenerator for more information. We do this by using the DocumentVectorGenerator. Overall this operation takes O(m + n) where m is the max amount of characters in a document, and n is the max amount of words in a document.
+Then, we get the file locations of each document in the resources folder.
+We then loop through each file location and do the following:
+	First, we extract the text from the file. We do this using File.ReadAllText.
+	Next, we generate a document vector for this document using the DocumentVectorGenerator.GenerateDocumentVector function, which returns the document vector created from the given document. This method takes O(m + n) time, where m is the max amount of characters in a document, and n is the max amount of words in a document.
+	Finally, we populate the index given the new document vector. For each unique word in the document vector we add the document to that place in the index. See the index analysis for more information. We do this using the index.indexPopulate method, which takes O(k) time, where k is the max amount of unique words in a given document.
+	If there is any error reading the given file, we print a message and don't read it.
+	Each time we do this it takes in total O(m + n + k) time, where m, n, and k are defined above.
+Since we do this for each document in the resources folder, in total this section takes O(w(m + n +k)) where m, n, and k are defined above, and w is the max amount of individual documents that can be found in the resources folder.
+Finally, we set the index for the documentSimilarityCalculator. This takes constant (O(1)) time.
+Overall, the entire method takes O(w(m + n + k) + m + n) simplified to O(w(m + n + k))
+	w = the maximum amount of documents in the resource folder
+	m = the maximum amount of characters in a given document
+	n = the maximum amount of words in a given document
+	k = the maximum amount of unique words in a given document. 
+
+Methods:
+GetSortedSimilarityList(input): Returns a sorted list of key value pairs. The key is the document vector and the value is the similarity to the given input. The list is sorted from most similar document to least similar document.
+First, we generate a document vector for the input. We do this by using the DocumentVectorGenerator.GenerateInputVector function. This returns a document vector which models the given input. This operation takes O(m + n) time, where m is the max number of characters in a document, and n is the max numer of words in a document. 
+Next, we generate a similarity map where each key is a different DocumentVector and each value is the cosine similarity of that document to the input. We do this by using the DocumentSimilarityCalculator.GetDocumentSimilarityMap function. This operation takes O(k(j + g)), where k is the max number of unique terms in a document vector, j is the max number of documuments which contain a specified word, and g is the number of documents in the index that share at least one term with the input document vector.
+Next, we turn that map into a List of key value pairs. We do this using the Dictionary.ToList method, which takes constant (O(1)) time.
+Finally, we sort and return this list. We sort the list using the List.sort method to compare the values of each key-value pair. This type of sorting uses the quicksort algorithmn, which has an average runtime of O(g log (g)), where g was defined two lines above. 
+In total, this method has a runtime complexity of O(m + n + k(j + g) + g log(g)) where:
+	m = the maximum amount of characters in a given document
+	n = the maximum amount of words in a given document
+	k = the maximum amount of unique words in a given document
+	j = the maximum amount of documents which contain a specified word
+	g = the maximum amount of documents which share at least one word with the input

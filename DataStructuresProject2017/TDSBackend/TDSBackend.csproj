@@ -88,6 +88,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BackendAnalysis.txt" />
     <Content Include="DocumentCleaning\DocumentCleaningReadMe.txt" />
     <Content Include="DocumentSimilarity\DocumentSimilarityCalculatorAnalysis.txt" />
     <Content Include="DocumentStorage\DocumentVectorAnalysis.txt" />
