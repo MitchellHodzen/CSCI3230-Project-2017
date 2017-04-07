@@ -1,0 +1,23 @@
+﻿Mitchell Hodzen - DocumentVector analysis
+
+DocumentVector:
+A document vector models a particular document. This model represents the document as a sparse vector, where every index position (column) in the vector represents a word which appears in at least one of the total amount of documents, and the entry for that index represents the amount of times that word appears in this particular document.
+Because a document will more than likely not contain every word that is present in all documents, a majority of the columns will have a value of 0. this sparse vector is held in the internalVector field.
+The model also keeps track of the path to the document on the disk. This path is held in the documentLocation field. 
+
+Any given document vector has the following fields:
+	string documentLocation: A string which holds the path on disk of the document which this document vector represents.
+	SparseVector internalVector: A sparse vector which contains information about what words appear in the document and the frequency of those words. 
+
+Constructor:
+DocumentVector(documentLocation, internalVector): The constructor sets the internal fields to the values passed in. This takes constant (O(1)) time.
+
+Methods:
+GetDocumentLocation(): Returns the documentLocation string. This takes constant (O(1)) time.
+
+GetDocumentTerms(): Returns an array of integers where every integer represents a word that appears in the document.
+This method uses in internalVector.GetNonZeroIndexPositions() function, which takes constant (O(1)) time. Therefore this function takes O(1) time.
+
+GetDocumentSimilarity(d2): Finds the similarity between the document and another document, d2. 
+To do this, this function returns the Cosine similarity of the internalVectors of the two document vectors. This function takes O(k) time where k is the max amount of index positions containing non-zero entries in a sparse vector. Therefore this method takes O(k) time.
+

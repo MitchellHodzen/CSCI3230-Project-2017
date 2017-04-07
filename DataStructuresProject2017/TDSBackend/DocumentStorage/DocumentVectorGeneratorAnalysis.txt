@@ -1,0 +1,48 @@
+﻿Mitchell Hodzen - DocumentVectorGenerator analysis
+
+DocumentVectorGenerator:
+The document vector generator generates a document vector given the path to a document and the text in that document. 
+It also holds a map which contains all words in every document and the index those words are assigned in a map, as well as a HashSet of stop words.
+	Note: Stop words are words such as "And" "The" and "as" which don't have much meaning in the actual document. If these words are removed then the overall meaning of the document is not changed substantially. Removing these stop words can speed up similarity calculations and make them more accurate.
+Each word found while reading a document is assigned a specific integer. That integer now represents that word, and is also used as index positions in a sparse vector (since each column represents a word).
+DocumentVectorGenerator is a static class, therefore has static methods and fields
+The fields for the DocumentVectorGenerator are:
+	Dictionary<string, int> termMap: A dictionary (map) of terms where the key is the term and the value is the integer that term is mapped to. From this point forward in the program that term is now synonymous with that integer, and is represented by that integer (used as the index position in a sparse vector)
+	int termIndex: the index position of the next word to add to the term map.
+	HashSet<string> stopWords: A hash set of stop words. Used to quickly check if any given word is a stop word.
+
+Methods:
+static PopulateStopWordsSet(location): This method reads a set of stop words from a file and adds them to the stopWords hash set.
+All of the following is put in a try-catch block to account for the case where the stop words document cannot be found.
+First the document is read and assigned to a string. Next, that string is split on newline (since each stop word is separated by a new line). Each individual word in the stop words document is added to an array. This uses the string method Split, which has a runtime complexity of O(m), where m is the max number of characters in a given document.
+Then, for each word in the stop words array is added to the stop words hash set. Adding a new entry into the hash set uses the hashset.Add() function which takes constant (O(1)) time. This loop goes through each word in the document, so this step overall takes O(n) time, where n is the max number of words in a document.
+If for any reason an error is encountered the error text is output to the console and the hash set is not populated.
+Overall, this method has a time complexity of O(m+n) where m is the max amount of characters in a document, and n is the max amount of words in a document.
+
+static GetTermIndex(term): Returns the index of a word if it is already in the termMap. If the word is not already in the term map, add it to the term map and return its index.
+Checking if the term is in the termMap uses the dictionary method ContainsKey(), which takes constant (O(1)) time. After checking if the current term is in the termMap one of two things can happen:
+	Case 1: The term is already a key in the term map. If this is the case, we return the value associated with that key. Getting the value associated with a key from a map takes (in most cases) constant (O(1)) time.
+	Case 2: The term is not already a key in the term map. If this is the case, we first add the term to the map and find the value for this term using the termIndex field. We then return the new value for this key. Adding a new key and value to the termMap takes (in most cases) constant (O(1)) time.
+In either case, this method takes constant time, and has a time complexity of O(1).
+
+static GenerateDocumentVector(input, documentLocation): Creates a document vector given a document location and the text of that document.
+First, using the StringCleaner.clean method, the text of the document is "cleaned" (spaces removed, punctuation removed, capitalization change to lower case). This method takes O(m) time where m is the max number of characters in a given document.
+After the text is cleaned, we split the text using the String.split method, which puts each word into an array. This operation takes O(m) time as well. 
+We instantiate a new SparseVector. This will be the vector which models the current document. 
+Next we loop through each word in the now clean document and do the following:
+	If the word is a stop word we throw it out. If it is not a stop word we continue. Checking if the word is a stop word by checking if that word is in the stop words hash set. This check take (in most cases) constant (O(1)) time. 
+	If the word is not a stop word we do the following:
+		We find the word index. We do this by calling the DocumentVectorGenerator.GetTermIndex method. This method takes O(1) time.
+		We add that word to the previously intantiated sparse vector. We do this by calling the sparse vector's AddElement method, which takes O(1) time.
+Since we check each word in the document, in total this will take O(n) time, where n is the is the max number of words in a document (as previously stated). 
+Finally, we create a new DocumentVector using the newly populated sparse vector and the passed-in document location. This document vector is now returned. 
+Overall, this method takes O(n+2m) time, simplified to O(n+m) time, where n is the max number of words in a document, and m is the max number of characters in a document.
+
+static GenerateInputVector(input): Creates a document vector which will represent the user input. Note that user input is usually much, much smaller than the documents generated by the method above (since other documents are, in our case, books).
+First, the input is cleaned and split in the same way as in the GenerateDocumentVector method. We know from above this process takes O(2m) time, where m is the max number of characters in a document (for specifics see the entry for GenerateDocumentVector above).
+Next, for each word we do the following:
+	We check to see if the word is not a stop word (not in the stop word hashset) AND if the word is already in the termMap (if the word is not in the term map there is no point in adding it to the vector, since it will not be compared against any previous document). This operation checks both the stop word hash set and the termmap to see if the term exists in either of them. Checking if a key exists in either data structure takes (in most cases) constant (O(1)) time.
+	Next, if the word is not a stop word and is in the termMap, we add it to the sparseVector which will represent the input, the same way we do when generating documents above. We know from above this process takes constant (O(1)) time (for specifics see the entry for GenerateDocumentVector above).
+Since we check each word in te document, in total this will take O(n) time, where n is the max number of words in a document.
+Finally, we create a new DocumentVector using the newly poulated sparseVector. Since this is user input there is no document path so that field is left null. That document vector is now returned.
+Overall, this method takes O(n+2m) time, simplified to O(n+m) time, where n is the max number of words in a document, and m is the max number of characters in a document.

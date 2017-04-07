@@ -18,15 +18,6 @@ namespace TDSBackend.DocumentStorage
         //Stop word hashset
         private static HashSet<string> stopWords = new HashSet<string>();
 
-        public static void PrintTermMap()
-        {
-            //Quick way to print out the termMap for testing
-            foreach (KeyValuePair<string, int> p in termMap)
-            {
-                Console.WriteLine("{0}, {1}", p.Key, p.Value);
-            }
-        }
-
         public static DocumentVector GenerateDocumentVector(string input, string documentLocation)
         {
             //Used to generate a document vector given an input string
@@ -79,7 +70,6 @@ namespace TDSBackend.DocumentStorage
             }
             //Create a new document vector
             return new DocumentVector(null, termVector);
-            //**NOTE** NEED TO GET THE DOCUMENT LOCATION/FILE FROM WORD CLEANER
         }
 
         private static int GetTermIndex(string term)
