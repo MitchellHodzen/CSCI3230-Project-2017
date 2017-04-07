@@ -1,0 +1,29 @@
+﻿Mitchell Hodzen - DocumentSimilarityCalculator analysis
+
+DocumentSimilarityCalculator:
+The document similarity calculator calculates the cosine similarity of some input document any any similar document (I.E any document which contains at least one word from the input). This is returned as an unsorted map where the key is the DocumentVector and the value is the similarity of that document vector to the input vector.
+
+
+DocumentVectorGenerator is a static class, therefore has static methods and fields
+The fields for the DocumentVectorGenerator are:
+	Index index: An instance of an inverted index of the documents to compare the input to. We use this index to reduce the amount of documents we need to check the input against (If the document has no words in common with the input then the similarity will be 0 anyways, so we don't check it).
+
+Methods:
+static SetIndex(index): Simply sets the index instance, takes constant (O(1)) time.
+
+static GetDocumentSimilarityMap(inputVector): Returns a map where the key is a documentvector in the index and the value is the cosine similarity of that document to the given input.
+The first half of the method searches the index for every document which has some term in common with the input vector.
+	First, we create a list of the total amount of documents to check against. Then, we create a hashset of those documents so we only count each instance once. Then, we populate an array of terms which represents each term that appears in the input document vector. We do this by calling input.GetDocumentTerms() which takes constant (O(1)) time.
+	Next, we loop through each term in the term array and get a list of documents in which that term is present. We add all of those documents to the total list of documents to check.
+		We find what documents belong to what terms using index.GetDocuments. This operation takes constant (O(1)) time.
+		We append these documents to the current document to check list. To do this we use the List.AddRange method, which takes O(j) time, where j is the max amount of documents which contain a specified word
+		We do these operations once for each term in the input document vector. Therefore, this operation takes O(jk) time, where k is the max amount of unique words in an input vector (the amount of index positions with non-zero entries in the input vector's internal sparse vector), j is the max amount of documents which contain a specified word. Note that in the average case k will be very small because the input string is generally only a few words long.
+	Next, we loop through each document to check and add them to a hashset. This removes duplicates. To do this we use the hashset.Add method, which takes (in most case) constant (O(1)) time. We do this once for every document in the documentToCheck list, so this part takes O(jk), with j and k define above. This is because the maximum amount of documents in the list will be the maximum amount of documents at each index position multiplied by the maximum amount of unique terms in the input. 
+	Adding these two steps, we find the total runtime complexity of the first half of the method takes O(2jk), simplified to O(jk), with j and k defined earlier in the entry.
+The second half of the method calculates the similarity of each document in the set of documents to check to the input document vector. The documents are held as the keys in a map, while their respective values contain the similarity to the input.
+	For each document in the hash set to check, we do the following operations:
+		Find the document we are checking by using the hashset.ElementAt method, which returns the current document vector. This operation takes constant (O(1)) time.
+		Calculate the cosine similarity of the input document vector and the current document vector we are checking. This operation uses the inputVector.GetDocumentSimilarity method, which takes O(k) time, where k is the number of unique terms in the document. Note that k here is, in practice, the number of unique terms in the input document, which will always be relatively small, as input generally has a very small number of terms.
+		We do these operations once for each documentVector in the documents to check hash set. Because of this, the runtime complexity of this step is O(gk), where k is the amount of unique words in a document vector (in practice, the input vector), and g is the number of documents in the index that share at least one term with the input document vector.
+Adding the two half together, we find that the total runtime complexity of this method is O(jk + gk), simplified to O(k(j + g)), where k is the max number of unique terms in a document vector, j is the max number of documuments which contain a specified word, and g is the number of documents in the index that share at least one term with the input document vector.
+

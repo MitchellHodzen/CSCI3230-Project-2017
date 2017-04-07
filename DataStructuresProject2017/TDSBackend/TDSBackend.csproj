@@ -89,7 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DocumentCleaning\DocumentCleaningReadMe.txt" />
-    <Content Include="DocumentSimilarity\DocumentSimilarityReadMe.txt" />
+    <Content Include="DocumentSimilarity\DocumentSimilarityCalculatorAnalysis.txt" />
     <Content Include="DocumentStorage\DocumentVectorAnalysis.txt" />
     <Content Include="DocumentStorage\DocumentVectorGeneratorAnalysis.txt" />
     <Content Include="DocumentStorage\SparseVectorAnalysis.txt" />

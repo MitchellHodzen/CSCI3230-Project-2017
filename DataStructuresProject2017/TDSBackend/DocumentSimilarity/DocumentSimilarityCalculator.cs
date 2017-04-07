@@ -14,7 +14,6 @@ namespace TDSBackend.DocumentSimilarity
         public static Dictionary<DocumentVector, double> GetDocumentSimilarityMap(DocumentVector inputVector)
         {
             //Returns a dictionary of document vectors where the key is the document vector and the value is the similarity to the input vector
-            //Change to something other than a dictionary?
             List<DocumentVector> similarDocs = new List<DocumentVector>();
             int[] inputTerms = inputVector.GetDocumentTerms();
             HashSet<DocumentVector> docsToCheck = new HashSet<DocumentVector>();

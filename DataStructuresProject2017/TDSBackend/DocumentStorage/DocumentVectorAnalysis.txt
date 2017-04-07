@@ -19,5 +19,5 @@ GetDocumentTerms(): Returns an array of integers where every integer represents 
 This method uses in internalVector.GetNonZeroIndexPositions() function, which takes constant (O(1)) time. Therefore this function takes O(1) time.
 
 GetDocumentSimilarity(d2): Finds the similarity between the document and another document, d2. 
-To do this, this function returns the Cosine similarity of the internalVectors of the two document vectors. This function takes O(k) time where k is the max amount of index positions containing non-zero entries in a sparse vector. Therefore this method takes O(k) time.
+To do this, this function returns the Cosine similarity of the internalVectors of the two document vectors. This function takes O(k) time where k is the max amount of index positions containing non-zero entries in a sparse vector. Note that k also represents the number of unique terms in the document. 
 
