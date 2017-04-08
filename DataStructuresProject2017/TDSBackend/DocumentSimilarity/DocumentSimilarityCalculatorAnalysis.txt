@@ -4,8 +4,8 @@ DocumentSimilarityCalculator:
 The document similarity calculator calculates the cosine similarity of some input document any any similar document (I.E any document which contains at least one word from the input). This is returned as an unsorted map where the key is the DocumentVector and the value is the similarity of that document vector to the input vector.
 
 
-DocumentVectorGenerator is a static class, therefore has static methods and fields
-The fields for the DocumentVectorGenerator are:
+DocumentSimilarityCalculator is a static class, therefore has static methods and fields
+The fields for the DocumentSimilarityCalculator are:
 	Index index: An instance of an inverted index of the documents to compare the input to. We use this index to reduce the amount of documents we need to check the input against (If the document has no words in common with the input then the similarity will be 0 anyways, so we don't check it).
 
 Methods:
