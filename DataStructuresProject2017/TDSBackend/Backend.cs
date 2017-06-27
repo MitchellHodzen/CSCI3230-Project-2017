@@ -15,10 +15,33 @@ namespace TDSBackend
         static object PopulateIndexLock = new object();
         public Backend(string location)
         {
+            string[] filePaths = System.IO.Directory.GetFiles(location);
+
+            //Preprocessing threads
+            int threadCount = 4;
+            Thread[] threads = new Thread[4 - 1]; //We will use the main thread to process data, so we only need 3 more
+            string[][] paths = new string[threadCount][];
+
+            int totalPassed = 0;
+            int docsPerThread = filePaths.Length / threadCount;
+            for (int i = 0; i < threadCount; i++)
+            {
+                int startIndex = i * docsPerThread;
+                int arrayLength = docsPerThread;
+                totalPassed += docsPerThread;
+                if (i + 1 == threadCount && (filePaths.Length - totalPassed) != 0)
+                {
+                    arrayLength += filePaths.Length - totalPassed;
+                }
+                paths[i] = filePaths.Skip(startIndex).Take(arrayLength).ToArray();
+                System.Diagnostics.Debug.WriteLine(paths[i].Length);
+            }
+            //End Preprocess Threads
+
             Index index = new Index();
             DocumentVectorGenerator.PopulateStopWordsSet(location);
+
             //Read each file in the given directory and create a document vector for it
-            string[] filePaths = System.IO.Directory.GetFiles(location);
             ProcessDocumentArray(filePaths, index);
             //for (int i = 0; i < filePaths.Length; i++)
             //{
