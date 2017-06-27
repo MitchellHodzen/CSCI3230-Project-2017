@@ -18,8 +18,8 @@ namespace TDSBackend
             string[] filePaths = System.IO.Directory.GetFiles(location);
 
             //Preprocessing threads
-            int threadCount = 4;
-            Thread[] threads = new Thread[4 - 1]; //We will use the main thread to process data, so we only need 3 more
+            int threadCount = Environment.ProcessorCount;
+            Thread[] threads = new Thread[threadCount - 1]; //We will use the main thread to process data, so we only need 3 more
             string[][] paths = new string[threadCount][];
 
             int totalPassed = 0;
