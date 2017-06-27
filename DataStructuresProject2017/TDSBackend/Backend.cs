@@ -6,32 +6,35 @@ using System.Threading.Tasks;
 using TDSBackend.DocumentStorage;
 using TDSBackend.Indexing;
 using TDSBackend.DocumentSimilarity;
+using System.Threading;
 
 namespace TDSBackend
 {
     public class Backend
     {
+        static object PopulateIndexLock = new object();
         public Backend(string location)
         {
             Index index = new Index();
             DocumentVectorGenerator.PopulateStopWordsSet(location);
             //Read each file in the given directory and create a document vector for it
             string[] filePaths = System.IO.Directory.GetFiles(location);
-            for (int i = 0; i < filePaths.Length; i++)
-            {
-                try
-                {
-                    //Extract text from the file, create a document vector for the document, add it to the index
-                    string text = System.IO.File.ReadAllText(filePaths[i]);
-                    DocumentVector dv = DocumentVectorGenerator.GenerateDocumentVector(text, filePaths[i]);
-                    index.indexPopulate(dv);
-                }
-                catch (Exception e)
-                {
-                    System.Diagnostics.Debug.WriteLine("Could not read file at location: " + filePaths[i]);
-                    System.Diagnostics.Debug.WriteLine(e.Message);
-                }
-            }
+            ProcessDocumentArray(filePaths, index);
+            //for (int i = 0; i < filePaths.Length; i++)
+            //{
+            //    try
+            //    {
+            //        //Extract text from the file, create a document vector for the document, add it to the index
+            //        string text = System.IO.File.ReadAllText(filePaths[i]);
+            //        DocumentVector dv = DocumentVectorGenerator.GenerateDocumentVector(text, filePaths[i]);
+            //        index.indexPopulate(dv);
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        System.Diagnostics.Debug.WriteLine("Could not read file at location: " + filePaths[i]);
+            //        System.Diagnostics.Debug.WriteLine(e.Message);
+            //    }
+            //}
 
             DocumentSimilarityCalculator.SetIndex(index);
         }
@@ -46,6 +49,27 @@ namespace TDSBackend
             List<KeyValuePair<DocumentVector, double>> outputList = outputDictionary.ToList();
             outputList.Sort((v1, v2) => v1.Value.CompareTo(v2.Value));
             return outputList;
+        }
+        private void ProcessDocumentArray(string[] filePaths, Index index)
+        {
+            for (int i = 0; i < filePaths.Length; i++)
+            {
+                try
+                {
+                    //Extract text from the file, create a document vector for the document, add it to the index
+                    string text = System.IO.File.ReadAllText(filePaths[i]);
+                    DocumentVector dv = DocumentVectorGenerator.GenerateDocumentVector(text, filePaths[i]);
+                    lock (PopulateIndexLock)
+                    {
+                        index.indexPopulate(dv);
+                    }
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine("Could not read file at location: " + filePaths[i]);
+                    System.Diagnostics.Debug.WriteLine(e.Message);
+                }
+            }
         }
     }
 }

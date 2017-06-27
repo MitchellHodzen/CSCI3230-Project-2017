@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TDSBackend.DocumentCleaning;
+using System.Threading;
 
 namespace TDSBackend.DocumentStorage
 {
     public static class DocumentVectorGenerator
     {
+
         //Map which holds each word that appears in all documents and their index position
         private static Dictionary<string, int> termMap = new Dictionary<string, int>();
 
@@ -34,7 +36,12 @@ namespace TDSBackend.DocumentStorage
                 if (!stopWords.Contains(words[i]))
                 {
                     //Check if the current word is in the overall termMap
-                    int currentWordIndex = GetTermIndex(words[i]);
+                    int currentWordIndex;
+                    lock (termMap)
+                    {
+                        currentWordIndex = GetTermIndex(words[i]);
+                    }
+                    
 
                     //Adds the current word to the term vector
                     //Note that if the word is already in the vector then the value is incremented by 1, if not the value for that word is set to 1
