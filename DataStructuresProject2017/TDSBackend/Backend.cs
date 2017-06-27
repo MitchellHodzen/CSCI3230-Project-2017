@@ -12,20 +12,25 @@ namespace TDSBackend
 {
     public class Backend
     {
-        static object PopulateIndexLock = new object();
+        private static readonly object PopulateIndexLock = new object();
+        Index index;
+
         public Backend(string location)
         {
             string[] filePaths = System.IO.Directory.GetFiles(location);
+            index = new Index();
+            DocumentVectorGenerator.PopulateStopWordsSet(location);
 
             //Preprocessing threads
             int threadCount = Environment.ProcessorCount;
-            Thread[] threads = new Thread[threadCount - 1]; //We will use the main thread to process data, so we only need 3 more
+            Thread[] threads = new Thread[threadCount]; 
             string[][] paths = new string[threadCount][];
-
+            //Separate the files into 4 relatively even sections for each thread
             int totalPassed = 0;
             int docsPerThread = filePaths.Length / threadCount;
             for (int i = 0; i < threadCount; i++)
             {
+                threads[i] = new Thread(new ParameterizedThreadStart(ProcessDocumentArray));
                 int startIndex = i * docsPerThread;
                 int arrayLength = docsPerThread;
                 totalPassed += docsPerThread;
@@ -34,31 +39,20 @@ namespace TDSBackend
                     arrayLength += filePaths.Length - totalPassed;
                 }
                 paths[i] = filePaths.Skip(startIndex).Take(arrayLength).ToArray();
-                System.Diagnostics.Debug.WriteLine(paths[i].Length);
             }
             //End Preprocess Threads
 
-            Index index = new Index();
-            DocumentVectorGenerator.PopulateStopWordsSet(location);
-
             //Read each file in the given directory and create a document vector for it
-            ProcessDocumentArray(filePaths, index);
-            //for (int i = 0; i < filePaths.Length; i++)
-            //{
-            //    try
-            //    {
-            //        //Extract text from the file, create a document vector for the document, add it to the index
-            //        string text = System.IO.File.ReadAllText(filePaths[i]);
-            //        DocumentVector dv = DocumentVectorGenerator.GenerateDocumentVector(text, filePaths[i]);
-            //        index.indexPopulate(dv);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        System.Diagnostics.Debug.WriteLine("Could not read file at location: " + filePaths[i]);
-            //        System.Diagnostics.Debug.WriteLine(e.Message);
-            //    }
-            //}
 
+            //Sending a section of documents to each thread 
+            for (int i = 0; i < threads.Length; i++)
+            {
+                threads[i].Start(paths[i]);
+            }
+            for (int i = 0; i < threads.Length; i++)
+            {
+                threads[i].Join();
+            }
             DocumentSimilarityCalculator.SetIndex(index);
         }
 
@@ -73,8 +67,9 @@ namespace TDSBackend
             outputList.Sort((v1, v2) => v1.Value.CompareTo(v2.Value));
             return outputList;
         }
-        private void ProcessDocumentArray(string[] filePaths, Index index)
+        private void ProcessDocumentArray(object arg)
         {
+            string[] filePaths = (string[])arg;
             for (int i = 0; i < filePaths.Length; i++)
             {
                 try
@@ -82,7 +77,8 @@ namespace TDSBackend
                     //Extract text from the file, create a document vector for the document, add it to the index
                     string text = System.IO.File.ReadAllText(filePaths[i]);
                     DocumentVector dv = DocumentVectorGenerator.GenerateDocumentVector(text, filePaths[i]);
-                    lock (PopulateIndexLock)
+                    //System.Diagnostics.Debug.WriteLine(Thread.CurrentThread.Name);
+                    lock (Backend.PopulateIndexLock)
                     {
                         index.indexPopulate(dv);
                     }
